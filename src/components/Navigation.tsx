@@ -21,10 +21,11 @@ const Navigation = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-              <Trash2 className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-primary">CleanCycle</span>
+            <img 
+              src="/lovable-uploads/06c8b515-237d-43e8-bc6c-1a0d763f5220.png" 
+              alt="CleanCycle Logo" 
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -54,10 +55,11 @@ const Navigation = () => {
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <div className="flex flex-col space-y-6 mt-6">
                   <Link to="/" className="flex items-center space-x-2 mb-6">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-                      <Trash2 className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="text-xl font-bold text-primary">CleanCycle</span>
+                    <img 
+                      src="/lovable-uploads/06c8b515-237d-43e8-bc6c-1a0d763f5220.png" 
+                      alt="CleanCycle Logo" 
+                      className="h-10 w-auto"
+                    />
                   </Link>
                   
                   {navItems.map((item) => (

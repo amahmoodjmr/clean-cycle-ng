@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Trash2, MapPin, User, Calendar } from 'lucide-react';
+import { MapPin, User, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -11,10 +11,11 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-                <Trash2 className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">CleanCycle</span>
+              <img 
+                src="/lovable-uploads/06c8b515-237d-43e8-bc6c-1a0d763f5220.png" 
+                alt="CleanCycle Logo" 
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="text-gray-400 mb-6 max-w-md">
               Revolutionizing waste management across Nigeria. Connecting communities with verified collectors for a cleaner, more sustainable future.
