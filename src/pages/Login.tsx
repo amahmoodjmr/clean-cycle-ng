@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Trash2, User, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
@@ -45,9 +44,11 @@ const Login = () => {
         <Card className="shadow-xl border-0">
           <CardHeader className="text-center pb-4">
             <div className="flex items-center justify-center mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
-                <Trash2 className="h-7 w-7 text-white" />
-              </div>
+              <img 
+                src="/lovable-uploads/06c8b515-237d-43e8-bc6c-1a0d763f5220.png" 
+                alt="CleanCycle Logo" 
+                className="h-16 w-auto"
+              />
             </div>
             <CardTitle className="text-2xl font-bold text-gray-900">Welcome Back</CardTitle>
             <CardDescription className="text-gray-600">

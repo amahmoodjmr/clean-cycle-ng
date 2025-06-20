@@ -1,16 +1,17 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar, MapPin, Trash2, Clock, ArrowUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Calendar, MapPin, Trash2, Clock, ArrowUp, User } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 
 const Schedule = () => {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState({
     wasteType: '',
     pickupDate: '',
@@ -19,6 +20,70 @@ const Schedule = () => {
     address: '',
     specialInstructions: ''
   });
+
+  // Check authentication status - TODO: Replace with actual authentication check
+  useEffect(() => {
+    const checkAuth = () => {
+      // For now, we'll simulate checking authentication
+      // This will be replaced with actual Supabase authentication
+      const user = localStorage.getItem('user'); // Temporary check
+      setIsAuthenticated(!!user);
+    };
+    
+    checkAuth();
+  }, []);
+
+  // If not authenticated, show login prompt
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100">
+        <Navigation />
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="max-w-md mx-auto text-center">
+            <Card className="shadow-xl border-0">
+              <CardHeader className="text-center pb-4">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+                    <User className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <CardTitle className="text-2xl font-bold text-gray-900">Login Required</CardTitle>
+                <CardDescription className="text-gray-600">
+                  You need to be logged in to schedule a pickup
+                </CardDescription>
+              </CardHeader>
+              
+              <CardContent className="space-y-4">
+                <p className="text-sm text-gray-600 mb-6">
+                  Create an account or sign in to access our waste pickup scheduling service.
+                </p>
+                
+                <div className="space-y-3">
+                  <Button asChild className="w-full gradient-green hover:shadow-lg transition-all duration-200">
+                    <Link to="/register">Create Account</Link>
+                  </Button>
+                  
+                  <Button asChild variant="outline" className="w-full">
+                    <Link to="/login">Sign In</Link>
+                  </Button>
+                </div>
+                
+                <div className="text-center mt-4">
+                  <Link 
+                    to="/" 
+                    className="text-sm text-primary hover:text-primary-700 transition-colors duration-200"
+                  >
+                    ← Back to Home
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const wasteTypes = [
     { value: 'plastic', label: 'Plastic Waste', icon: '♻️' },
@@ -41,7 +106,7 @@ const Schedule = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Pickup scheduled:', formData);
-    // TODO: Implement scheduling logic
+    // TODO: Implement scheduling logic with Supabase
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
