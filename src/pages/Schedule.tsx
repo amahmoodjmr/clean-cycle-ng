@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar, MapPin, Trash2, Clock, ArrowUp, User, CheckCircle } from 'lucide-react';
+import { Calendar, MapPin, Trash2, Clock, ArrowUp, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 
@@ -33,119 +33,52 @@ const Schedule = () => {
     checkAuth();
   }, []);
 
-  // If not authenticated, show sign up/login prompt with benefits
+  // If not authenticated, show login prompt
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100">
         <Navigation />
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Schedule Your Waste Pickup</h1>
-              <p className="text-gray-600">Join CleanCycle to book convenient waste collection services</p>
-            </div>
-
-            <Card className="shadow-xl border-0 mb-8">
+          <div className="max-w-md mx-auto text-center">
+            <Card className="shadow-xl border-0">
               <CardHeader className="text-center pb-4">
                 <div className="flex items-center justify-center mb-4">
                   <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
-                    <Calendar className="w-8 h-8 text-primary" />
+                    <User className="w-8 h-8 text-primary" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-bold text-gray-900">Get Started Today</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-900">Login Required</CardTitle>
                 <CardDescription className="text-gray-600">
-                  Create your account to access our waste pickup scheduling service
+                  You need to be logged in to schedule a pickup
                 </CardDescription>
               </CardHeader>
               
-              <CardContent className="space-y-6">
-                {/* Benefits */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-gray-900">What you'll get:</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Schedule pickups at your convenience</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Track your pickup status in real-time</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Choose from verified waste collectors</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Set recurring pickups for convenience</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Contribute to a cleaner Nigeria</span>
-                    </div>
-                  </div>
-                </div>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-gray-600 mb-6">
+                  Create an account or sign in to access our waste pickup scheduling service.
+                </p>
                 
-                <div className="space-y-3 pt-4">
-                  <Button asChild className="w-full h-12 gradient-green hover:shadow-lg transition-all duration-200 text-lg">
-                    <Link to="/register">Create Your Account</Link>
+                <div className="space-y-3">
+                  <Button asChild className="w-full gradient-green hover:shadow-lg transition-all duration-200">
+                    <Link to="/register">Create Account</Link>
                   </Button>
                   
-                  <Button asChild variant="outline" className="w-full h-12 text-lg">
-                    <Link to="/login">Already Have an Account? Sign In</Link>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link to="/login">Sign In</Link>
                   </Button>
                 </div>
                 
-                <div className="text-center text-sm text-gray-500 pt-4">
-                  <p>Quick signup • No credit card required • Start scheduling immediately</p>
+                <div className="text-center mt-4">
+                  <Link 
+                    to="/" 
+                    className="text-sm text-primary hover:text-primary-700 transition-colors duration-200"
+                  >
+                    ← Back to Home
+                  </Link>
                 </div>
               </CardContent>
             </Card>
-
-            {/* Preview of scheduling form */}
-            <Card className="shadow-lg border-0 opacity-75">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2 text-gray-500">
-                  <User className="w-5 h-5" />
-                  <span>Preview: Scheduling Form</span>
-                </CardTitle>
-                <CardDescription>
-                  This is what you'll see after signing up
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-gray-400">Waste Type</Label>
-                    <div className="h-11 bg-gray-100 rounded-md flex items-center px-3 text-gray-400">
-                      Select waste type...
-                    </div>
-                  </div>
-                  <div>
-                    <Label className="text-gray-400">Pickup Date</Label>
-                    <div className="h-11 bg-gray-100 rounded-md flex items-center px-3 text-gray-400">
-                      Choose date...
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <Label className="text-gray-400">Address</Label>
-                  <div className="h-11 bg-gray-100 rounded-md flex items-center px-3 text-gray-400">
-                    Enter your address...
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="text-center mt-8">
-              <Link 
-                to="/" 
-                className="text-primary hover:text-primary-700 transition-colors duration-200 font-medium"
-              >
-                ← Back to Home
-              </Link>
-            </div>
           </div>
         </div>
       </div>
