@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -5,14 +6,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar, MapPin, Trash2, Clock, ArrowUp, User } from 'lucide-react';
+import { Calendar, MapPin, Trash2, Clock, User, Phone, Mail } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
+import ChatBot from '@/components/ChatBot';
+import { useToast } from '@/hooks/use-toast';
 
 const Schedule = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
+    // Contact Information
+    fullName: '',
+    email: '',
+    phone: '',
+    // Pickup Details
     wasteType: '',
     pickupDate: '',
     pickupTime: '',
@@ -20,70 +28,6 @@ const Schedule = () => {
     address: '',
     specialInstructions: ''
   });
-
-  // Check authentication status - TODO: Replace with actual authentication check
-  useEffect(() => {
-    const checkAuth = () => {
-      // For now, we'll simulate checking authentication
-      // This will be replaced with actual Supabase authentication
-      const user = localStorage.getItem('user'); // Temporary check
-      setIsAuthenticated(!!user);
-    };
-    
-    checkAuth();
-  }, []);
-
-  // If not authenticated, show login prompt
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100">
-        <Navigation />
-        
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="max-w-md mx-auto text-center">
-            <Card className="shadow-xl border-0">
-              <CardHeader className="text-center pb-4">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
-                    <User className="w-8 h-8 text-primary" />
-                  </div>
-                </div>
-                <CardTitle className="text-2xl font-bold text-gray-900">Login Required</CardTitle>
-                <CardDescription className="text-gray-600">
-                  You need to be logged in to schedule a pickup
-                </CardDescription>
-              </CardHeader>
-              
-              <CardContent className="space-y-4">
-                <p className="text-sm text-gray-600 mb-6">
-                  Create an account or sign in to access our waste pickup scheduling service.
-                </p>
-                
-                <div className="space-y-3">
-                  <Button asChild className="w-full gradient-green hover:shadow-lg transition-all duration-200">
-                    <Link to="/register">Create Account</Link>
-                  </Button>
-                  
-                  <Button asChild variant="outline" className="w-full">
-                    <Link to="/login">Sign In</Link>
-                  </Button>
-                </div>
-                
-                <div className="text-center mt-4">
-                  <Link 
-                    to="/" 
-                    className="text-sm text-primary hover:text-primary-700 transition-colors duration-200"
-                  >
-                    ← Back to Home
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const wasteTypes = [
     { value: 'plastic', label: 'Plastic Waste', icon: '♻️' },
@@ -106,7 +50,15 @@ const Schedule = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Pickup scheduled:', formData);
-    // TODO: Implement scheduling logic with Supabase
+    
+    // Show success message
+    toast({
+      title: "Pickup Scheduled Successfully!",
+      description: "We'll contact you within 24 hours to confirm your pickup details.",
+    });
+
+    // TODO: Save to database when Supabase is connected
+    // For now, we'll just show the success message
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -131,123 +83,189 @@ const Schedule = () => {
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Schedule Waste Pickup</h1>
-            <p className="text-gray-600">Book a convenient time for your waste collection</p>
+            <p className="text-gray-600">Book a convenient time for your waste collection - no account required!</p>
           </div>
 
           <Card className="shadow-xl border-0">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Calendar className="w-5 h-5 text-primary" />
-                <span>Pickup Details</span>
+                <span>Pickup Request</span>
               </CardTitle>
               <CardDescription>
-                Fill in the details below to schedule your waste pickup
+                Fill in your details below to schedule your waste pickup. We'll contact you to confirm.
               </CardDescription>
             </CardHeader>
             
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Waste Type Selection */}
-                <div className="space-y-2">
-                  <Label htmlFor="wasteType">Waste Type</Label>
-                  <Select onValueChange={handleSelectChange('wasteType')} required>
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="Select waste type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {wasteTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
-                          <div className="flex items-center space-x-2">
-                            <span>{type.icon}</span>
-                            <span>{type.label}</span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Date and Time */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="pickupDate">Pickup Date</Label>
-                    <Input
-                      id="pickupDate"
-                      name="pickupDate"
-                      type="date"
-                      value={formData.pickupDate}
-                      onChange={handleChange}
-                      required
-                      className="h-11"
-                      min={new Date().toISOString().split('T')[0]}
-                    />
+                {/* Contact Information Section */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 flex items-center space-x-2">
+                    <User className="w-5 h-5 text-primary" />
+                    <span>Contact Information</span>
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="fullName">Full Name</Label>
+                      <Input
+                        id="fullName"
+                        name="fullName"
+                        type="text"
+                        placeholder="Enter your full name"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                        required
+                        className="h-11"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          placeholder="+234 XXX XXX XXXX"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                          className="h-11 pl-10"
+                        />
+                      </div>
+                    </div>
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="pickupTime">Preferred Time</Label>
-                    <Select onValueChange={handleSelectChange('pickupTime')} required>
+                    <Label htmlFor="email">Email Address</Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="your.email@example.com"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="h-11 pl-10"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pickup Details Section */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 flex items-center space-x-2">
+                    <Trash2 className="w-5 h-5 text-primary" />
+                    <span>Pickup Details</span>
+                  </h3>
+
+                  {/* Waste Type Selection */}
+                  <div className="space-y-2">
+                    <Label htmlFor="wasteType">Waste Type</Label>
+                    <Select onValueChange={handleSelectChange('wasteType')} required>
                       <SelectTrigger className="h-11">
-                        <SelectValue placeholder="Select time slot" />
+                        <SelectValue placeholder="Select waste type" />
                       </SelectTrigger>
                       <SelectContent>
-                        {timeSlots.map((slot) => (
-                          <SelectItem key={slot} value={slot}>
-                            {slot}
+                        {wasteTypes.map((type) => (
+                          <SelectItem key={type.value} value={type.value}>
+                            <div className="flex items-center space-x-2">
+                              <span>{type.icon}</span>
+                              <span>{type.label}</span>
+                            </div>
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
-                </div>
 
-                {/* Frequency */}
-                <div className="space-y-2">
-                  <Label htmlFor="frequency">Pickup Frequency</Label>
-                  <Select onValueChange={handleSelectChange('frequency')} required>
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="Select frequency" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="once">One-time pickup</SelectItem>
-                      <SelectItem value="weekly">Weekly</SelectItem>
-                      <SelectItem value="biweekly">Bi-weekly</SelectItem>
-                      <SelectItem value="monthly">Monthly</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                  {/* Date and Time */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="pickupDate">Pickup Date</Label>
+                      <Input
+                        id="pickupDate"
+                        name="pickupDate"
+                        type="date"
+                        value={formData.pickupDate}
+                        onChange={handleChange}
+                        required
+                        className="h-11"
+                        min={new Date().toISOString().split('T')[0]}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="pickupTime">Preferred Time</Label>
+                      <Select onValueChange={handleSelectChange('pickupTime')} required>
+                        <SelectTrigger className="h-11">
+                          <SelectValue placeholder="Select time slot" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {timeSlots.map((slot) => (
+                            <SelectItem key={slot} value={slot}>
+                              {slot}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
 
-                {/* Address */}
-                <div className="space-y-2">
-                  <Label htmlFor="address">Pickup Address</Label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-                    <Input
-                      id="address"
-                      name="address"
-                      type="text"
-                      placeholder="Enter your full address"
-                      value={formData.address}
+                  {/* Frequency */}
+                  <div className="space-y-2">
+                    <Label htmlFor="frequency">Pickup Frequency</Label>
+                    <Select onValueChange={handleSelectChange('frequency')} required>
+                      <SelectTrigger className="h-11">
+                        <SelectValue placeholder="Select frequency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="once">One-time pickup</SelectItem>
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="biweekly">Bi-weekly</SelectItem>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Address */}
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Pickup Address</Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                      <Input
+                        id="address"
+                        name="address"
+                        type="text"
+                        placeholder="Enter your full address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                        className="h-11 pl-10"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500">
+                      Include landmarks or specific directions to help our collectors find you
+                    </p>
+                  </div>
+
+                  {/* Special Instructions */}
+                  <div className="space-y-2">
+                    <Label htmlFor="specialInstructions">Special Instructions (Optional)</Label>
+                    <Textarea
+                      id="specialInstructions"
+                      name="specialInstructions"
+                      placeholder="Any special instructions for the collector..."
+                      value={formData.specialInstructions}
                       onChange={handleChange}
-                      required
-                      className="h-11 pl-10"
+                      rows={3}
                     />
                   </div>
-                  <p className="text-sm text-gray-500">
-                    Include landmarks or specific directions to help our collectors find you
-                  </p>
-                </div>
-
-                {/* Special Instructions */}
-                <div className="space-y-2">
-                  <Label htmlFor="specialInstructions">Special Instructions (Optional)</Label>
-                  <Textarea
-                    id="specialInstructions"
-                    name="specialInstructions"
-                    placeholder="Any special instructions for the collector..."
-                    value={formData.specialInstructions}
-                    onChange={handleChange}
-                    rows={3}
-                  />
                 </div>
 
                 {/* Estimated Cost */}
@@ -271,6 +289,19 @@ const Schedule = () => {
                 >
                   Schedule Pickup
                 </Button>
+
+                {/* Registration Prompt */}
+                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-gray-600 mb-2">
+                    Want to track your pickups and manage your schedule easily?
+                  </p>
+                  <Link 
+                    to="/register"
+                    className="text-primary hover:text-primary-700 font-medium text-sm transition-colors duration-200"
+                  >
+                    Create a free account →
+                  </Link>
+                </div>
               </form>
             </CardContent>
           </Card>
@@ -307,6 +338,9 @@ const Schedule = () => {
           </div>
         </div>
       </div>
+
+      {/* ChatBot Component */}
+      <ChatBot />
     </div>
   );
 };
