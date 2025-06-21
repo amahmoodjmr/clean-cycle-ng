@@ -1,12 +1,9 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowDown, Calendar, Trash2, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
 const Hero = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-100">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-100">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-pattern opacity-40"></div>
       
@@ -22,7 +19,7 @@ const Hero = () => {
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Clean Nigeria,{' '}
-                <span className="text-primary gradient-green bg-clip-text text-transparent">
+                <span className="gradient-green bg-clip-text text-transparent">
                   One Pickup
                 </span>{' '}
                 at a Time
@@ -33,19 +30,10 @@ const Hero = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                asChild 
-                size="lg" 
-                className="gradient-green hover:shadow-xl transition-all duration-300 text-lg px-8 py-6"
-              >
+              <Button asChild size="lg" className="gradient-green hover:shadow-xl transition-all duration-300 text-lg px-8 py-6">
                 <Link to="/register">Start Cleaning Today</Link>
               </Button>
-              <Button 
-                asChild 
-                variant="outline" 
-                size="lg" 
-                className="border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 text-lg px-8 py-6"
-              >
+              <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 text-lg px-8 py-6">
                 <Link to="/schedule">Schedule Pickup</Link>
               </Button>
             </div>
@@ -114,8 +102,6 @@ const Hero = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <ArrowDown className="w-6 h-6 text-primary" />
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
