@@ -19,7 +19,7 @@ const Hero = () => {
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Clean Nigeria,{' '}
-                <span className="gradient-green bg-clip-text text-transparent">
+                <span className="gradient-green bg-clip-text text-accent-foreground">
                   One Pickup
                 </span>{' '}
                 at a Time
