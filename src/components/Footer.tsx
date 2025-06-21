@@ -1,28 +1,21 @@
-
 import React from 'react';
 import { MapPin, User, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
 const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white">
+  return <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
-              <img 
-                src="/lovable-uploads/06c8b515-237d-43e8-bc6c-1a0d763f5220.png" 
-                alt="CleanCycle Logo" 
-                className="h-10 w-auto"
-              />
+              <img src="/lovable-uploads/06c8b515-237d-43e8-bc6c-1a0d763f5220.png" alt="CleanCycle Logo" className="h-10 w-auto" />
             </Link>
             <p className="text-gray-400 mb-6 max-w-md">
               Revolutionizing waste management across Nigeria. Connecting communities with verified collectors for a cleaner, more sustainable future.
             </p>
             <div className="text-sm text-gray-400">
-              <p>Made with 💚 for Nigeria</p>
-              <p className="mt-1">Supporting English & Hausa languages</p>
+              
+              
             </div>
           </div>
 
@@ -89,8 +82,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
