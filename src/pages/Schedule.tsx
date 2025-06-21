@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,10 +10,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import ChatBot from '@/components/ChatBot';
 import { useToast } from '@/hooks/use-toast';
-
 const Schedule = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [formData, setFormData] = useState({
     // Contact Information
     fullName: '',
@@ -28,55 +28,62 @@ const Schedule = () => {
     address: '',
     specialInstructions: ''
   });
-
-  const wasteTypes = [
-    { value: 'plastic', label: 'Plastic Waste', icon: '♻️' },
-    { value: 'organic', label: 'Organic Waste', icon: '🍃' },
-    { value: 'ewaste', label: 'E-Waste', icon: '💻' },
-    { value: 'paper', label: 'Paper & Cardboard', icon: '📄' },
-    { value: 'glass', label: 'Glass', icon: '🍾' },
-    { value: 'metal', label: 'Metal', icon: '🔩' },
-    { value: 'mixed', label: 'Mixed Waste', icon: '🗑️' }
-  ];
-
-  const timeSlots = [
-    '8:00 AM - 10:00 AM',
-    '10:00 AM - 12:00 PM',
-    '12:00 PM - 2:00 PM',
-    '2:00 PM - 4:00 PM',
-    '4:00 PM - 6:00 PM'
-  ];
-
+  const wasteTypes = [{
+    value: 'plastic',
+    label: 'Plastic Waste',
+    icon: '♻️'
+  }, {
+    value: 'organic',
+    label: 'Organic Waste',
+    icon: '🍃'
+  }, {
+    value: 'ewaste',
+    label: 'E-Waste',
+    icon: '💻'
+  }, {
+    value: 'paper',
+    label: 'Paper & Cardboard',
+    icon: '📄'
+  }, {
+    value: 'glass',
+    label: 'Glass',
+    icon: '🍾'
+  }, {
+    value: 'metal',
+    label: 'Metal',
+    icon: '🔩'
+  }, {
+    value: 'mixed',
+    label: 'Mixed Waste',
+    icon: '🗑️'
+  }];
+  const timeSlots = ['8:00 AM - 10:00 AM', '10:00 AM - 12:00 PM', '12:00 PM - 2:00 PM', '2:00 PM - 4:00 PM', '4:00 PM - 6:00 PM'];
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Pickup scheduled:', formData);
-    
+
     // Show success message
     toast({
       title: "Pickup Scheduled Successfully!",
-      description: "We'll contact you within 24 hours to confirm your pickup details.",
+      description: "We'll contact you within 24 hours to confirm your pickup details."
     });
 
     // TODO: Save to database when Supabase is connected
     // For now, we'll just show the success message
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
   };
-
   const handleSelectChange = (field: string) => (value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100">
+  return <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100">
       <Navigation />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -109,32 +116,14 @@ const Schedule = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="fullName">Full Name</Label>
-                      <Input
-                        id="fullName"
-                        name="fullName"
-                        type="text"
-                        placeholder="Enter your full name"
-                        value={formData.fullName}
-                        onChange={handleChange}
-                        required
-                        className="h-11"
-                      />
+                      <Input id="fullName" name="fullName" type="text" placeholder="Enter your full name" value={formData.fullName} onChange={handleChange} required className="h-11" />
                     </div>
                     
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone Number</Label>
                       <div className="relative">
                         <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          placeholder="+234 XXX XXX XXXX"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          required
-                          className="h-11 pl-10"
-                        />
+                        <Input id="phone" name="phone" type="tel" placeholder="+234 XXX XXX XXXX" value={formData.phone} onChange={handleChange} required className="h-11 pl-10" />
                       </div>
                     </div>
                   </div>
@@ -143,16 +132,7 @@ const Schedule = () => {
                     <Label htmlFor="email">Email Address</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="your.email@example.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="h-11 pl-10"
-                      />
+                      <Input id="email" name="email" type="email" placeholder="your.email@example.com" value={formData.email} onChange={handleChange} required className="h-11 pl-10" />
                     </div>
                   </div>
                 </div>
@@ -172,14 +152,12 @@ const Schedule = () => {
                         <SelectValue placeholder="Select waste type" />
                       </SelectTrigger>
                       <SelectContent>
-                        {wasteTypes.map((type) => (
-                          <SelectItem key={type.value} value={type.value}>
+                        {wasteTypes.map(type => <SelectItem key={type.value} value={type.value}>
                             <div className="flex items-center space-x-2">
                               <span>{type.icon}</span>
                               <span>{type.label}</span>
                             </div>
-                          </SelectItem>
-                        ))}
+                          </SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
@@ -188,16 +166,7 @@ const Schedule = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="pickupDate">Pickup Date</Label>
-                      <Input
-                        id="pickupDate"
-                        name="pickupDate"
-                        type="date"
-                        value={formData.pickupDate}
-                        onChange={handleChange}
-                        required
-                        className="h-11"
-                        min={new Date().toISOString().split('T')[0]}
-                      />
+                      <Input id="pickupDate" name="pickupDate" type="date" value={formData.pickupDate} onChange={handleChange} required className="h-11" min={new Date().toISOString().split('T')[0]} />
                     </div>
                     
                     <div className="space-y-2">
@@ -207,11 +176,9 @@ const Schedule = () => {
                           <SelectValue placeholder="Select time slot" />
                         </SelectTrigger>
                         <SelectContent>
-                          {timeSlots.map((slot) => (
-                            <SelectItem key={slot} value={slot}>
+                          {timeSlots.map(slot => <SelectItem key={slot} value={slot}>
                               {slot}
-                            </SelectItem>
-                          ))}
+                            </SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
@@ -238,16 +205,7 @@ const Schedule = () => {
                     <Label htmlFor="address">Pickup Address</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-                      <Input
-                        id="address"
-                        name="address"
-                        type="text"
-                        placeholder="Enter your full address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        required
-                        className="h-11 pl-10"
-                      />
+                      <Input id="address" name="address" type="text" placeholder="Enter your full address" value={formData.address} onChange={handleChange} required className="h-11 pl-10" />
                     </div>
                     <p className="text-sm text-gray-500">
                       Include landmarks or specific directions to help our collectors find you
@@ -257,14 +215,7 @@ const Schedule = () => {
                   {/* Special Instructions */}
                   <div className="space-y-2">
                     <Label htmlFor="specialInstructions">Special Instructions (Optional)</Label>
-                    <Textarea
-                      id="specialInstructions"
-                      name="specialInstructions"
-                      placeholder="Any special instructions for the collector..."
-                      value={formData.specialInstructions}
-                      onChange={handleChange}
-                      rows={3}
-                    />
+                    <Textarea id="specialInstructions" name="specialInstructions" placeholder="Any special instructions for the collector..." value={formData.specialInstructions} onChange={handleChange} rows={3} />
                   </div>
                 </div>
 
@@ -276,17 +227,14 @@ const Schedule = () => {
                       <p className="text-sm text-gray-600">Based on waste type and location</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-primary">₦2,500</div>
+                      <div className="text-2xl font-bold text-primary">₦800</div>
                       <div className="text-sm text-gray-600">per pickup</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Submit Button */}
-                <Button 
-                  type="submit" 
-                  className="w-full h-12 gradient-green hover:shadow-lg transition-all duration-200 text-lg"
-                >
+                <Button type="submit" className="w-full h-12 gradient-green hover:shadow-lg transition-all duration-200 text-lg">
                   Schedule Pickup
                 </Button>
 
@@ -295,10 +243,7 @@ const Schedule = () => {
                   <p className="text-sm text-gray-600 mb-2">
                     Want to track your pickups and manage your schedule easily?
                   </p>
-                  <Link 
-                    to="/register"
-                    className="text-primary hover:text-primary-700 font-medium text-sm transition-colors duration-200"
-                  >
+                  <Link to="/register" className="text-primary hover:text-primary-700 font-medium text-sm transition-colors duration-200">
                     Create a free account →
                   </Link>
                 </div>
@@ -341,8 +286,6 @@ const Schedule = () => {
 
       {/* ChatBot Component */}
       <ChatBot />
-    </div>
-  );
+    </div>;
 };
-
 export default Schedule;
